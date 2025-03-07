@@ -18,3 +18,9 @@ VSCode などで V 言語をあつかう際には、v-analyzer (V 言語用の L
 インストールなどは以下のリンクを参照してください。
 
 https://github.com/vlang/v-analyzer
+
+## Format
+
+```bash
+v fmt -w .
+```
