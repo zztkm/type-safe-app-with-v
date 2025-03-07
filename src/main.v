@@ -1,8 +1,3 @@
-// このプログラムは n 月刊ラムダノート Vol.4, No.3 に掲載されている
-// 「#2 型を活用した安全なアプリケーション開発（佐藤有斗）」の説明を V 言語で実践するものです。
-// 書籍のサンプルコードは Scala で書かれていますが、自分の理のために別言語で写経してみました。
-// https://www.lambdanote.com/products/n-vol-4-no-3-2024
-
 module main
 
 // NOTE: required fields: https://docs.vlang.io/structs.html#required-fields
@@ -28,10 +23,28 @@ struct UnconfirmedOrder {
     BaseOrder
 }
 
+// 確定処理
+fn (o UnconfirmedOrder) confirm(now string) ConfirmedOrder {
+    return ConfirmedOrder{
+        BaseOrder: o.BaseOrder,
+        confirmed_at: now,
+    }
+}
+
 // 確定済みの注文
 struct ConfirmedOrder {
     BaseOrder
     confirmed_at string @[required]
+}
+
+// キャンセル処理
+fn (o ConfirmedOrder) cancel(cancel_reason string, now string) CancelledOrder{
+    return CancelledOrder{
+        BaseOrder: o.BaseOrder,
+        confirmed_at: o.confirmed_at,
+        canceled_at: now,
+        cancel_reason: cancel_reason,
+    }
 }
 
 // キャンセル済みの注文
@@ -73,18 +86,19 @@ fn get_order_status(order Order) string {
 fn main() {
     // すべてのフィールドを明示的に初期化する必要がある
     // 初期化していないフィールドがあるとコンパイルエラーになる (v-analyzer で警告が出る)
-    confirmed_order := ConfirmedOrder{
-        BaseOrder: BaseOrder{
-            order_id: "123",
-            customer_id: "456",
-            shipping_address: "東京都千代田区",
-            lines: [
-                OrderLine{product_id: "789", quantity: 1},
-                OrderLine{product_id: "101", quantity: 2},
-            ]
-        },
-        confirmed_at: "2021-01-01T00:00:00Z",
+    repo := OrderReopository{}
+
+    order_id := "123"
+    cancel_reason := "もっと安い商品を見つけた"
+
+    cancel_order_use_case := CancelOrderUseCase{
+        repository: repo,
     }
 
-    println(get_order_status(confirmed_order))
+    // キャンセル処理実行
+    cancel_order_use_case.execute(order_id, cancel_reason) or {
+        println("キャンセル処理に失敗しました: ${err}")
+        return
+    }
+    println("キャンセルの処理が完了しました")
 }
