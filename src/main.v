@@ -1,5 +1,7 @@
 module main
 
+import nonzeroint { new_non_zero_int }
+
 // NOTE: required fields: https://docs.vlang.io/structs.html#required-fields
 // この属性がついたフィールドは、構造体を初期化する際に必ず明示的に初期化する必要がある。
 // すべてのフィールドにつけたいと思うと面倒だなと思ったけど、Copilot が自動生成してくれるので特に問題ないかもしれない...
@@ -101,4 +103,15 @@ fn main() {
 		return
 	}
 	println('キャンセルの処理が完了しました')
+
+	// コンストラクタの可視性をコントロールするパターンを試す
+	mut non_zero := new_non_zero_int(1) or {
+		println('エラー: ${err}')
+		return
+	}
+	println("non_zero: ${non_zero.get()}")
+	non_zero.set(0) or {
+		println('エラー: ${err}')
+		return
+	}
 }
