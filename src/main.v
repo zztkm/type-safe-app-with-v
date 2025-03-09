@@ -61,13 +61,12 @@ struct CancelledOrder {
 struct ShippingOrder {
 	BaseOrder
 	confirmed_at string @[required]
-	shipped_at   string @[required]
 	// 配送会社 ID
-	shipping_company_id string @[required]
+	shipped_by string @[required]
 	// 発送開始日時
 	shipping_started_at string @[required]
 	// 到着予定日
-	estimated_arrival_at string @[required]
+	scheduled_arrival_date string @[required]
 }
 
 // https://docs.vlang.io/type-declarations.html#sum-types
@@ -88,7 +87,7 @@ fn get_order_status(order Order) string {
 fn main() {
 	// すべてのフィールドを明示的に初期化する必要がある
 	// 初期化していないフィールドがあるとコンパイルエラーになる (v-analyzer で警告が出る)
-	repo := OrderReopository{}
+	repo := OrderRepository{}
 
 	order_id := '123'
 	cancel_reason := 'もっと安い商品を見つけた'

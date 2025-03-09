@@ -1,9 +1,9 @@
 module main
 
-struct OrderReopository {}
+struct OrderRepository {}
 
 // find_by_id は order_id に対応する Order を返す
-fn (r OrderReopository) find_by_id(order_id string) ?Order {
+fn (r OrderRepository) find_by_id(order_id string) ?Order {
 	// ここではダミーのデータを返す
 	return ConfirmedOrder{
 		order_id:         order_id

@@ -1,7 +1,7 @@
 module main
 
 struct CancelOrderUseCase {
-	repository OrderReopository
+	repository OrderRepository
 }
 
 fn (u CancelOrderUseCase) execute(order_id string, cancel_reason string) ! {
