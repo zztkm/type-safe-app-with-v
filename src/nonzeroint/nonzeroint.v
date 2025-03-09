@@ -1,4 +1,4 @@
-// 0 以外の整数を表す NonZeroInt 構造体を提供するモジュール
+// nonzeroint は 0 以外の整数を表す NonZeroInt 構造体を提供するモジュール
 module nonzeroint
 
 @[noinit]
