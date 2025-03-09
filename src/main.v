@@ -15,8 +15,8 @@ struct OrderLine {
 
 // ベースとなる注文データ構造
 struct BaseOrder {
-	order_id         string      @[required]
-	customer_id      string      @[required]
+	order_id         int      @[required]
+	customer_id      int      @[required]
 	shipping_address string      @[required]
 	lines            []OrderLine @[required]
 }
@@ -63,7 +63,7 @@ struct ShippingOrder {
 	BaseOrder
 	confirmed_at string @[required]
 	// 配送会社 ID
-	shipped_by string @[required]
+	shipped_by int @[required]
 	// 発送開始日時
 	shipping_started_at string @[required]
 	// 到着予定日
@@ -86,9 +86,15 @@ fn get_order_status(order Order) string {
 }
 
 fn main() {
-	db := sqlite.connect("main.db") or {
+	mut db := sqlite.connect("main.db") or {
 		println('DB 接続に失敗しました: ${err}')
 		return
+	}
+	defer {
+		db.close() or { 
+			println('DB 切断に失敗しました: ${err}')
+		 }
+		 println('DB 切断しました')
 	}
 	// すべてのフィールドを明示的に初期化する必要がある
 	// 初期化していないフィールドがあるとコンパイルエラーになる (v-analyzer で警告が出る)
@@ -96,7 +102,7 @@ fn main() {
 		db: &db
 	}
 
-	order_id := '123'
+	order_id := 123
 	cancel_reason := 'もっと安い商品を見つけた'
 
 	cancel_order_use_case := CancelOrderUseCase{
@@ -120,4 +126,5 @@ fn main() {
 		println('エラー: ${err}')
 		return
 	}
+	println("すべての処理が完了しました")
 }

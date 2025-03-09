@@ -4,7 +4,7 @@ struct CancelOrderUseCase {
 	repository OrderRepository
 }
 
-fn (u CancelOrderUseCase) execute(order_id string, cancel_reason string) ! {
+fn (u CancelOrderUseCase) execute(order_id int, cancel_reason string) ! {
 	order := u.repository.find_by_id(order_id) or { return error('order not found') }
 	now := '2025-01-01T00:00:00Z'
 
