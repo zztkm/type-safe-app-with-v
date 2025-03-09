@@ -5,7 +5,23 @@
 書籍のサンプルコードは Scala で書かれていますが、自分の理のために別言語で写経してみました。
 https://www.lambdanote.com/products/n-vol-4-no-3-2024
 
+## 必要なもの
+
+- V 言語
+  - 基本最新版であれば問題ないと思います
+  - SQLite library: https://modules.vlang.io/db.sqlite.html
+- Go 言語
+  - sqldef を go mod で管理しています
+
 ## 実行方法
+
+まだ DB 準備をしていない場合は以下のコマンドで DB を準備してください。
+
+```bash
+make migration
+```
+
+アプリ実行 (といっても単発のプログラムでサーバーアプリケーション化はしていません)
 
 ```bash
 v run .

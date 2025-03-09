@@ -1,6 +1,7 @@
 module main
 
 import nonzeroint { new_non_zero_int }
+import db.sqlite
 
 // NOTE: required fields: https://docs.vlang.io/structs.html#required-fields
 // この属性がついたフィールドは、構造体を初期化する際に必ず明示的に初期化する必要がある。
@@ -85,9 +86,15 @@ fn get_order_status(order Order) string {
 }
 
 fn main() {
+	db := sqlite.connect("main.db") or {
+		println('DB 接続に失敗しました: ${err}')
+		return
+	}
 	// すべてのフィールドを明示的に初期化する必要がある
 	// 初期化していないフィールドがあるとコンパイルエラーになる (v-analyzer で警告が出る)
-	repo := OrderRepository{}
+	repo := OrderRepository{
+		db: &db
+	}
 
 	order_id := '123'
 	cancel_reason := 'もっと安い商品を見つけた'

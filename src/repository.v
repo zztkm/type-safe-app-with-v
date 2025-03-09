@@ -1,6 +1,10 @@
 module main
 
-struct OrderRepository {}
+import db.sqlite
+
+struct OrderRepository {
+	db &sqlite.DB
+}
 
 // find_by_id は order_id に対応する Order を返す
 fn (r OrderRepository) find_by_id(order_id string) ?Order {
