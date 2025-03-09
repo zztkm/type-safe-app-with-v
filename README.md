@@ -22,5 +22,13 @@ https://github.com/vlang/v-analyzer
 ## Format
 
 ```bash
-v fmt -w .
+make fmt
 ```
+
+## 参考資料
+
+V 言語の参考リンクはソースコード中に適宜記載しています。
+その他の参考資料は以下のリンクを参照してください。
+
+- [sqldef](https://github.com/sqldef/sqldef)
+- [Go 1.24で入ったGo製ツールの管理機能が便利だったのでおすすめしたい](https://blog.syum.ai/entry/2025/03/01/235814)
