@@ -11,7 +11,9 @@ pub fn new_non_zero_int(value int) !NonZeroInt {
 	if value == 0 {
 		return error('0 is not allowed')
 	}
-	return NonZeroInt{value: value}
+	return NonZeroInt{
+		value: value
+	}
 }
 
 pub fn (n NonZeroInt) get() int {

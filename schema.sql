@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS orders(
+CREATE TABLE orders(
     order_id  INTEGER PRIMARY KEY AUTOINCREMENT,
     customer_id INTEGER NOT NULL,
     shipping_address TEXT NOT NULL,
@@ -10,4 +10,11 @@ CREATE TABLE IF NOT EXISTS orders(
     shipping_started_at TEXT,
     shipped_by INTEGER,
     scheduled_arrival_date TEXT
+);
+
+CREATE TABLE order_lines(
+    order_line_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
+    quantity INTEGER NOT NULL
 );

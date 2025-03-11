@@ -15,6 +15,8 @@ https://www.lambdanote.com/products/n-vol-4-no-3-2024
 
 ## 実行方法
 
+※ Linux (Ubuntu 24.04) でのみ動作確認しています。
+
 まだ DB 準備をしていない場合は以下のコマンドで DB を準備してください。
 
 ```bash

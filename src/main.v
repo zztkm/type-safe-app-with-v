@@ -9,14 +9,14 @@ import db.sqlite
 
 // 注文明細
 struct OrderLine {
-	product_id string @[required]
-	quantity   int    @[required]
+	product_id int @[required]
+	quantity   int @[required]
 }
 
 // ベースとなる注文データ構造
 struct BaseOrder {
-	order_id         int      @[required]
-	customer_id      int      @[required]
+	order_id         int         @[required]
+	customer_id      int         @[required]
 	shipping_address string      @[required]
 	lines            []OrderLine @[required]
 }
@@ -86,15 +86,13 @@ fn get_order_status(order Order) string {
 }
 
 fn main() {
-	mut db := sqlite.connect("main.db") or {
+	mut db := sqlite.connect('main.db') or {
 		println('DB 接続に失敗しました: ${err}')
 		return
 	}
 	defer {
-		db.close() or { 
-			println('DB 切断に失敗しました: ${err}')
-		 }
-		 println('DB 切断しました')
+		db.close() or { println('DB 切断に失敗しました: ${err}') }
+		println('DB 切断しました')
 	}
 	// すべてのフィールドを明示的に初期化する必要がある
 	// 初期化していないフィールドがあるとコンパイルエラーになる (v-analyzer で警告が出る)
@@ -107,6 +105,14 @@ fn main() {
 
 	cancel_order_use_case := CancelOrderUseCase{
 		repository: repo
+	}
+	find_order_use_case := FindOrderUseCase{
+		repository: repo
+	}
+
+	find_order_use_case.execute(order_id) or {
+		println('注文情報の取得に失敗しました: ${err}')
+		return
 	}
 
 	// キャンセル処理実行
@@ -121,10 +127,10 @@ fn main() {
 		println('エラー: ${err}')
 		return
 	}
-	println("non_zero: ${non_zero.get()}")
+	println('non_zero: ${non_zero.get()}')
 	non_zero.set(0) or {
 		println('エラー: ${err}')
 		return
 	}
-	println("すべての処理が完了しました")
+	println('すべての処理が完了しました')
 }

@@ -26,3 +26,11 @@ fn (u CancelOrderUseCase) execute(order_id int, cancel_reason string) ! {
 		}
 	}
 }
+
+struct FindOrderUseCase {
+	repository OrderRepository
+}
+
+fn (u FindOrderUseCase) execute(order_id int) !Order {
+	return u.repository.find_by_id(order_id)
+}
